@@ -1,0 +1,59 @@
+Financial_News_Aggregator_Agent_task:
+  description: >
+    Conduct a comprehensive search across top financial news sources like CNBC, Bloomberg, Reuters, Yahoo Finance, MarketWatch, NYT Business, and Google News.
+
+    Your goal is to curate the 10 most recent, high-quality financial articles relevant to "{query}". 
+    Ensure:
+    - Articles are from the past 7 days.
+    - Sources are trustworthy with high editorial standards.
+    - Content is relevant and free of sensationalism or clickbait.
+    - Each article includes an image (if available), timestamp, and a clear summary.
+
+    Extract and display the following metadata for each article:
+    - 📰 Headline
+    - 🖼️ Image URL (if available)
+    - 🕒 Timestamp (e.g., "3 hours ago", "Yesterday")
+    - 📝 Summary (5–10 informative sentences)
+    - 🔗 Full article URL
+    - 🏷️ Publisher name
+
+  expected_output: |
+    A list of up to 10 articles displayed in a financial-news-style card layout.
+    Each article should be formatted like:
+    ```
+    - <Display Image> <Publisher> | <Headline>
+      🕒 <Timestamp>
+      Summary: <5–10 sentence article summary>
+      🔗 [Read Full Article](<Article URL>)
+    ```
+    Output should be clean and optimized for markdown or CMS integration.
+
+  agent: Financial_News_Aggregator_Agent
+
+
+Stock_Insight_Agent_task:
+  description: >
+    Given a valid stock ticker like "AAPL", "TSLA", "GOOGL", or indices like "NIFTY", perform a comprehensive stock analysis.
+
+    Your responsibilities include:
+    - Fetching the current stock price and today's percentage change
+    - Displaying volume and market cap (if data is available)
+    - Generating a line chart for the past 30 days
+    - Allowing range customization (1M, 3M, 1Y)
+    - Validating the ticker and returning a user-friendly error if it's invalid
+    - Providing a direct link to Yahoo Finance for full stock details
+
+    The goal is to emulate a finance dashboard in a markdown-compatible format.
+
+  expected_output: |
+    Present the data in the following structured format:
+    ```
+    💲 Current Price: <price> (<% change>)
+    📅 Date Range: <e.g., Last 30 Days>
+    📊 Volume: <volume> | Market Cap: <cap>
+    📈 Stock Chart: <embed or image link to matplotlib/plotly graph>
+    🔗 [View on Yahoo Finance](<Yahoo URL>)
+    ```
+    Ensure visuals and text are styled clearly for CMS or user interface embedding.
+
+  agent: Stock_Insight_Agent
