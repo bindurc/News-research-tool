@@ -1,0 +1,109 @@
+News_Aggregator_Agent_task:
+  description: >
+    Conduct a comprehensive search across top-tier global and Indian news platforms
+    (Google News, Reuters, BBC, Al Jazeera, Times of India, Hindustan Times, NYT)
+    to identify the 10 most recent and reliable articles relevant to "{query}".
+    
+    Your goal is to simulate how Google News curates and displays top stories.
+    Each article must be:
+    - Recent (from the past 7 days)
+    - Credible (major publishers only)
+    - Relevant to the query without sensationalism
+    - Extract relevant image link from the article 
+    - Hightlight the <Headline>
+
+    Extract the following metadata from each article:
+    - 📰 Headline
+    - 🖼️ Image URL (if available)
+    - 🕒 Timestamp (e.g., "2 hours ago", "Yesterday")
+    - 📝 10-sentence excerpt or summary
+    - 🔗 Full article URL
+    - 🏷️ Publisher name
+
+  expected_output: |
+    A list of up to 10 articles displayed in a Google News-style card layout.
+    Each article entry should look like this (as a placeholder format):
+    ```
+    - <Image> <Publisher> | <Headline>
+      🕒 <Timestamp>
+      Summary: <10-sentence article summary>
+      🔗 [Read Full Article](<Article URL>)
+    ```
+    Ensure the list is cleanly formatted for markdown or CMS embedding.
+  agent: News_Aggregator_Agent
+
+Media_Agent_task:
+  description: >
+    For each article gathered about "{query}", extract a relevant high-quality image
+    directly from the article’s page using Open Graph metadata or structured tags.
+    
+    Avoid generic stock images or unrelated visuals — the image must:
+    - Visually reflect the article's core content
+    - Come from the publisher’s domain or CDN
+    - Be legally reusable (use metadata or attribution if required)
+
+  expected_output: |
+    A list of image URLs correctly matched with each article.
+    Format each like:
+    ```
+    - 🖼️ Image URL: <image_link>
+      🏷️ Publisher: <Publisher>
+      📰 Title: <Article Title>
+    ```
+  agent: Media_Agent
+
+Writer_Agent_task:
+  description: >
+    Write a 10-sentence factual and neutral summary of each article about "{query}".
+    
+    Your summary should:
+    - Be in journalistic tone
+    - Reflect the article’s "what, where, when, who, and why"
+    - Avoid rewording the headline or duplicating the lead
+    - Not speculate or editorialize
+
+  expected_output: |
+    A list of summaries, one per article,hightlighted headline, in this format:
+    ```
+    - 📰 <Headline>
+      Summary: <10-sentence factual summary>
+    ```
+  agent: Writer_Agent
+
+Editor_Agent_task:
+  description: >
+    Review each summary and article card element (hightlighted headline, image, timestamp, link, summary).
+    Your role is to edit for clarity, tone consistency, grammar, and neutrality.
+
+    Ensure:
+    - No bias or emotional tone
+    - Correct spelling, punctuation, and formatting
+    - Consistent style across all summaries
+
+  expected_output: |
+    A final cleaned list of articles with the following format:
+    ```
+    - <Image> <Publisher> | <Headline>
+      🕒 <Timestamp>
+      Summary: <Cleaned 10-sentence summary>
+      🔗 [Read Full Article](<URL>)
+    ```
+  agent: Editor_Agent
+
+Publishing_Agent_task:
+  description: >
+    Format and compile the approved list of news cards into a scrollable, embeddable block
+    suitable for a CMS or blog section, in the style of Google News or Flipboard.
+    
+    Ensure all elements (hightlighted headline, summary, image, timestamp, and link) are consistently styled.
+
+  expected_output: |
+    Final markdown-renderable list of news cards:
+    ```
+    - <Image> <Publisher> | <Headline>
+      🕒 <Timestamp>
+      Summary: <Final Summary>
+      🔗 [Read Full Article](<URL>)
+    ```
+    Ensure readability and styling matches modern news aggregator layouts.
+  agent: Publishing_Agent
