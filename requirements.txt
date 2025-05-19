@@ -1,0 +1,11 @@
+crewai
+crewai-tools
+agno
+yfinance
+fastapi
+python-dotenv
+tavily
+duckduckgo-search
+NewsApi
+openweather
+streamlit
